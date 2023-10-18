@@ -1,0 +1,43 @@
+#====== Exploring sqlite databases ======#
+
+#### initiating sqlite and database
+
+import sqlite3
+
+connection = sqlite3.connect("personal.db")
+
+cursor = connection.cursor()
+
+#### list to use as database
+
+game_list = [
+    ('Pokemon', 'JRPG'),
+    ('COD', 'FPS'),
+    ('RainbowSix', 'FPS'),
+    ('Dishonored', 'Action-Adventure'),
+    ]
+
+#### table creation : only needs to be done once
+
+#cursor.execute('create table games (title text, genre text)')
+
+#### table data insertion
+
+cursor.executemany('insert into games values (?,?)', game_list)
+
+#### accessing data
+
+def game_genre_query():
+    connection = sqlite3.connect("personal.db")
+    cursor = connection.cursor()
+    
+    query = str(input('type a genre'))
+    cursor.execute('select * from games where genre=:c', {'c': query}) 
+    genre_search = cursor.fetchall()
+    print(genre_search)
+    
+    connection.close()
+
+####
+
+connection.close()
